@@ -1,0 +1,323 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #001927;
+  --main: #98fefd;
+  --bgText: #367179;
+  --font: "Montserrat";
+  --borderColor: #12404d;
+  --secondary: #eaad1c;
+  --topbarText: #59a0a6;
+  --topbarMsgBg: #0c2e3b;
+  --contentSidePadding: 355px;
+}
+
+body {
+  color: white;
+  font-size: 13px;
+  min-height: 100dvh;
+  position: relative;
+  background-size: cover;
+  font-family: var(--font);
+  /* background: var(--bg); */
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-image: url(https://roatpkz.com/data/images/banner-main.jpg);
+  /* background-image: linear-gradient(180deg, var(--bg), var(--bg) 100%), url(https://roatpkz.com/data/images/banner-main.jpg); */
+}
+
+/* Utility Classes */
+.flexRow {
+  display: flex;
+  grid-gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menuListItem {
+  padding: 10px;
+}
+
+.menuListItem::before {
+  margin-top: 70px;
+  content: "";
+  position: absolute;
+  background: #7a878f;
+  height: 45px;
+  width: 1px;
+  top: -10px;
+  margin-left: -15px;
+}
+
+.fontColorMain {
+  font-weight: 700;
+  color: var(--main);
+}
+
+header {
+  width: 100%;
+  max-height: 125px;
+  background-size: cover;
+  background-position: top;
+  backdrop-filter: blur(3px);
+  background-repeat: no-repeat;
+  border-bottom: 1px solid var(--borderColor);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 25, 39, 0.55),
+    rgba(9, 38, 53, 0.55)
+  );
+  /* background-image: url(https://roatpkz.com/data/images/header-bg-new.png); */
+}
+
+/* .headerContainer {
+    width: 60%;
+    margin: 0 auto;
+} */
+
+.topbar {
+  min-height: 40px;
+  padding: 0 var(--contentSidePadding);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.navbar {
+  padding: 0 var(--contentSidePadding);
+}
+
+.titleBox {
+  text-align: center;
+  opacity: 100%;
+  background: -webkit-linear-gradient(transparent, transparent);
+}
+
+.titleText {
+  text-shadow: black 2px 2px 8px;
+  font-size: 4.5rem;
+  letter-spacing: 4px;
+  font-weight: 900;
+  display: inline-block;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.adventureText {
+  text-shadow: black 2px 2px 8px;
+  text-align: center;
+  font-size: 6rem;
+  letter-spacing: 4px;
+  font-weight: 900;
+  display: inline-block;
+  text-transform: uppercase;
+  padding-top: 20px;
+}
+
+section {
+  padding: 90px calc(var(--contentSidePadding) + -8px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.subtitleText {
+  padding: 45px 18px 45px 18px;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-shadow: black 2px 2px 6px;
+}
+
+.playNowButton {
+  color: white;
+  padding: 30px 50px;
+  justify-content: center;
+  font-size: 2.5rem;
+  background-image: url(https://roatpkz.com/data/images/button-1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.playNowButton:hover {
+  box-shadow: #00191e 0px 0px 12px 3px;
+  transform: scale(1.03);
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.1s;
+}
+
+.scrollDownTextBox {
+  font-size: medium;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: white;
+  font-weight: 300;
+  display: flex;
+  text-shadow: black 2px 2px 3px;
+  padding-bottom: 20%;
+}
+
+.scrollDownText {
+  padding: 5px 5px;
+  cursor: pointer;
+}
+
+.dropdownButton {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 5px 0px 5px;
+  border-color: #ffffff transparent transparent transparent;
+  background-color: transparent;
+}
+
+.registerDropDownButton {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 5px 0px 5px;
+  border-color: #ffffff transparent transparent transparent;
+  background-color: transparent;
+}
+
+.flippingDropdownButton {
+  transform: rotate(180deg);
+  transition: transform 400ms ease;
+}
+
+.dropdownButton:hover {
+  cursor: pointer;
+}
+
+.registerDropDownButton:hover {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  margin-top: 12px;
+  margin-left: -70px;
+  padding: 13px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  position: absolute;
+  background-color: #091c25;
+  box-shadow: 0 7px 15px black;
+  width: 132px;
+  opacity: 90%;
+  border-radius: 5px;
+}
+/*  PROBELM WITH DROP DOWNS AFTER CREATING TITLE TEXT CSS DROP DOWNS MISSALIGNED WHEN THEY WERE PERFECT BEFORE (MANUALLY REALLIGNED FOR NOW */
+.registerDropdown-content {
+  display: none;
+  margin-top: 139px;
+  margin-left: 180px;
+  padding: 13px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  position: absolute;
+  background-color: #091c25;
+  box-shadow: 0 7px 15px black;
+  width: 132px;
+  opacity: 90%;
+  border-radius: 5px;
+}
+
+/* .dropdown:hover .dropdown-content {
+    display: flex;
+    transition: 0.35s ease-in-out;
+  } */
+
+.dropdown-content a {
+  display: block;
+  color: white;
+  padding: 12px 16px;
+  white-space: nowrap;
+  transition: 0.35s ease-in-out;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  border-bottom: 1px solid #0c3341;
+  font-weight: 600;
+  font-size: small;
+}
+
+.registerDropdown-content a {
+  display: block;
+  color: white;
+  padding: 12px 16px;
+  white-space: nowrap;
+  transition: 0.35s ease-in-out;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+  border-bottom: 1px solid #0c3341;
+  font-weight: 600;
+  font-size: small;
+}
+
+.dropdown-content a:hover {
+  font-size: larger;
+  box-shadow: 0 0 10px #1283c5;
+  color: var(--secondary);
+}
+
+.registerDropdown-content a:hover {
+  font-size: larger;
+  box-shadow: 0 0 10px #1283c5;
+  color: var(--secondary);
+}
+
+.menu {
+  list-style: none;
+  max-height: 85px;
+}
+
+.menuLink {
+  transition: 0.35s ease-in-out;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.menuLink:hover {
+  color: var(--secondary);
+}
+
+.navbarLogo img {
+  position: relative;
+  max-width: 12rem;
+  top: 20px;
+}
+
+footer {
+  padding: 90px calc(var(--contentSidePadding));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Mobile Queries // Mobile Responsiveness */
+/* Above 1366px typically considered desktop */
+/* 1366px - 1093px is range for small laptops */
+/* 1092px - 992px is range for tablets */
+/* 768px - 678px is range for mobile */
+@media (max-width: 992px) {
+  :root {
+    --contentSidePadding: 55px;
+  }
+  .hideThisOnMobile {
+    display: none;
+  }
+}
