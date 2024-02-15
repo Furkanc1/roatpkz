@@ -25,6 +25,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" type="module" defer></script>
+    <script src="./dropdowns.js" type="module" defer></script>
 </head>
 
 <body class="mainContentOfWebsite">
@@ -32,14 +33,14 @@
     <header>
       <div class="headerContainer">
         <div class="topbar flexRow">
-            <div class="flexRow leftCol">
+            <div class="dropdownCol flexRow leftCol">
                 <div class="dropdown fontColorMain">More On Roat PKZ</div>
-                <button class="dropdownButton">
-                    <div class="dropdown-content">
-                      <a href="#">Vote</a>
-                      <a href="#">Item-List</a>
-                      <a href="#">Drop-Table</a>
-                    </div>
+                <button class="dropdownButton"></button>
+                <div class="dropdown-content">
+                    <a href="#">Vote</a>
+                    <a href="#">Item-List</a>
+                    <a href="#">Drop-Table</a>
+                  </div>
                 <div class="colContent spacer"></div>
             </div>
             <div class="middleCol">
@@ -50,19 +51,23 @@
                     <span><span class="playersCount">531</span> Players</span>
                     <span class="hideThisOnMobile">are online</span>
                 </div>
-                <div class="dropdown fontColorMain">Join Them</div>
-                <button class="registerDropDownButton"></button>
-                    <div class="registerDropdown-content">
-                      <a href="#">Login</a>
-                      <a href="#">Sign-Up</a>
-                    </div>
+                <div class="rightSideDropdown dropdownCol">
+                    <div class="dropdown fontColorMain">Join Them</div>
+                    <button class="dropdownButton registerDropDownButton"></button>
+                    <div class="dropdown-content registerDropdown-content">
+                        <a href="#">Login</a>
+                        <a href="#">Sign-Up</a>
+                      </div>
+                </div>
             </div>
         </div>
         <nav class="navbar">
             <ul class="flexRow menu">
-                <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Home</a></li>
-                <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Forum</a></li>
-                <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Donate</a></li>
+                <!-- <div class="sideLinks leftLinks"> -->
+                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Home</a></li>
+                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Forum</a></li>
+                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Donate</a></li>
+                <!-- </div> -->
                 <li class="menuListItem">
                     <a class="menuLink fontColorMain" href="#">
                         <div class="navbarLogo">
@@ -70,9 +75,11 @@
                         </div>
                     </a>
                 </li>
-                <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Hiscores</a></li>
-                <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Download</a></li>
-                <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Vote</a></li>
+                <!-- <div class="sideLinks rightLinks"> -->
+                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Hiscores</a></li>
+                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Download</a></li>
+                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Vote</a></li>
+                <!-- </div> -->
             </ul>
         </nav>
       </div>

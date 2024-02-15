@@ -54,7 +54,11 @@ body {
   height: 45px;
   width: 1px;
   top: -10px;
-  margin-left: -15px;
+  margin-left: -20px;
+}
+
+.menuListItem:first-child::before {
+  display: none;
 }
 
 .fontColorMain {
@@ -204,35 +208,36 @@ section {
   cursor: pointer;
 }
 
+.dropdownCol {
+  cursor: pointer;
+  position: relative;
+}
+
 .dropdown-content {
-  display: none;
-  margin-top: 12px;
-  margin-left: -70px;
+  left: 50%;
+  opacity: 0;
+  width: 132px;
   padding: 13px;
-  justify-content: space-evenly;
   flex-wrap: wrap;
   position: absolute;
-  background-color: #091c25;
-  box-shadow: 0 7px 15px black;
-  width: 132px;
-  opacity: 90%;
   border-radius: 5px;
+  /* pointer-events: none; */
+  background-color: #091c25;
+  justify-content: space-evenly;
+  box-shadow: 0 7px 15px black;
+  transform: translate(-50%, 60%);
 }
+
+.dropdown-content.expanded {
+  opacity: 90%;
+  pointer-events: all;
+}
+
 /*  PROBELM WITH DROP DOWNS AFTER CREATING TITLE TEXT CSS DROP DOWNS MISSALIGNED WHEN THEY WERE PERFECT BEFORE (MANUALLY REALLIGNED FOR NOW */
-.registerDropdown-content {
-  display: none;
-  margin-top: 139px;
-  margin-left: 180px;
-  padding: 13px;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  position: absolute;
-  background-color: #091c25;
-  box-shadow: 0 7px 15px black;
-  width: 132px;
-  opacity: 90%;
-  border-radius: 5px;
-}
+/* .registerDropdown-content {
+  margin-top: 5px;
+  margin-left: -100px; */
+/* } */
 
 /* .dropdown:hover .dropdown-content {
     display: flex;
@@ -265,6 +270,12 @@ section {
   border-bottom: 1px solid #0c3341;
   font-weight: 600;
   font-size: small;
+}
+
+.rightSideDropdown {
+  display: flex;
+  grid-gap: 15px;
+  align-items: center;
 }
 
 .dropdown-content a:hover {
@@ -308,6 +319,13 @@ footer {
   justify-content: center;
 }
 
+/* .sideLinks {
+  display: flex;
+  grid-gap: 5px;
+  align-items: center;
+  justify-content: center;
+} */
+
 /* Mobile Queries // Mobile Responsiveness */
 /* Above 1366px typically considered desktop */
 /* 1366px - 1093px is range for small laptops */
@@ -318,6 +336,22 @@ footer {
     --contentSidePadding: 55px;
   }
   .hideThisOnMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 935px) {
+  /* Header Responsiveness */
+  .navbar .menu {
+    grid-gap: 0;
+    flex-direction: column;
+  }
+
+  .menuListItem {
+    padding: 0;
+  }
+
+  .menuListItem::before {
     display: none;
   }
 }
