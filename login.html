@@ -87,29 +87,15 @@
     </header>
 
     <main>
-        <section>
+        <section class="flexColumn">
             <div class="titleBox">
-                <h1 class="titleText">Get Ready For An</h1>
-                <h1 class="adventureText">Adventure!</h1>
+                <h1 class="adventureText">Sign In!</h1>
             </div>
-            <div class="subtitleText">
-                <p>Join the most active Wilderness in the scene, we are a community</p>
-                <br>
-                <p>driven server that strives to create the most enjoyable experience for you!</p>
-            </div>
-            <button class="playNowButton">PLAY NOW</button>
-        </section>
-        <div class="scrollDownTextBox">
-            <p class="scrollDownText" href="#information"> Scroll Down For More!</p>
-        </div>
-        <div class="newsTitleContainer">
-            <section id="information">
-                <h2 id="newsSectionTitle">The Latest From Roat PKZ</h2>
-            </section>
-        </div>
-        <div class="informationSectionContainer">
-            <h1 class="newsBox">NewsBox Here</h1>
-        </div>
+            <form class="authForm signInForm">
+                <input type="email" name="email" placeholder="Enter Email..." required />
+                <input type="password" name="password" placeholder="Enter Password..." required />
+                <button type="submit" class="playNowButton">Login</button>
+            </form>
     </main>
 
     <footer>
