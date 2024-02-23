@@ -177,6 +177,25 @@ section {
   cursor: pointer;
 }
 
+.websiteNewsContainer {
+  display: flex;
+  grid-gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+#newsSectionTitle {
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  font-size: xx-large;
+  padding: 5px;
+  text-shadow: 2px 2px 8px black;
+}
+
+websiteNewsContainer {
+  border: black;
+}
+
 .dropdownButton {
   width: 0;
   height: 0;
