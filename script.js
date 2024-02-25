@@ -11,13 +11,59 @@ let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
 let user = storedUser ? JSON.parse(storedUser) : [];
 
+// source: https://stackoverflow.com/questions/34299555/javascript-login-register-with-localstorage 
+const userEmail = document.getElementById("email")
+const userPassword = document.getElementById("password")
+
+const storingUserInfo = () => {
+    localStorage.setItem("email", userEmail.value)
+    localStorage.setItem("password", userPassword.value)
+}
+
+
+const checkUserInfo = () => {
+    let emailFormData = localStorage.getItem("email")
+    let passwordFormData = localStorage.getItem("password")
+
+    let userEmail = document.getElementById("email")
+    let userPassword = document.getElementById("password")
+
+    if(userEmail.value !== emailFormData || userPassword !== passwordFormData) {
+        console.log("Email or Password is Incorrect!", )
+    } else {
+        console.log("You are logged in!", )
+    }
+}
+
 const signUpLogic = (data) => {
+    let emailFormData = localStorage.getItem("email")
+    // let passwordFormData = localStorage.getItem("password")
+
+    if(userEmail.value === emailFormData) {
+        // signInLogic();
+        console.log("Email Already Exists")
+    } else {
+        storingUserInfo();
+        console.log("User Signed Up!")
+    }
     // If the email does not exist, sign the user up by storing them in localstorage
     // If the email does exist => sign in logic
     console.log(`User is trying to sign up`, data);
 }
 
 const signInLogic = (data) => {
+    let emailFormData = localStorage.getItem("email")
+    let passwordFormData = localStorage.getItem("password")
+
+    if (userEmail.value !== emailFormData || userPassword.value !== passwordFormData) {
+        console.log("User Does Not Exist OR Incorrect Password!")
+
+    // } else if (userEmail.value === emailFormData && userPassword.value === passwordFormData) {
+    //     console.log("User Successfully signed in (sign in Logic)")
+    
+    } else {
+        console.log("User Info was not stored correctly or doesnt exist")
+    }
     // Check if the email exists in ou localstorage, if it does, now check their password, if both match, log user in with localstorage
     console.log(`User is trying to sign in`, data);
 }
