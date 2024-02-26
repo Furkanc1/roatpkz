@@ -73,6 +73,7 @@ const checkUserInfoLogic = (data) => {
     // console.log(`User is trying to sign in`, data);
 }
 
+// NEED TO ADD IF GUARD FOR if (logged in) then 1) no login/register option ONLY logout option 2) TBD
 
 
 let forms = document.querySelectorAll(`form`);
