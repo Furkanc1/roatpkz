@@ -24,9 +24,6 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./style.css">
-    <script src="./script.js" type="module" defer></script>
-    <script src="./dropdowns.js" type="module" defer></script>
-    <script src="./dynamicHiscores.js" defer></script>
 </head>
 
 <body class="mainContentOfWebsite">
@@ -92,16 +89,19 @@
                 <h1 class="adventureText">Sign In!</h1>
             </div>
             <form class="authForm signInForm">
-                <input type="email" name="email" placeholder="Enter Email..." required />
-                <input type="password" name="password" placeholder="Enter Password..." required />
-                <button type="submit" class="playNowButton">Login</button>
+                <input type="email" id="email" name="email" placeholder="Enter Email..." required />
+                <input type="password" id="password" name="password" placeholder="Enter Password..." required />
+                <button type="submit" id="loginBtn" class="playNowButton">Login</button>
             </form>
-    </main>
+        </main>
 
     <footer>
         <h2>Roat PKZ | Copyright <i class="copyrightFooter"></i> <span class="year">2024</span> </h2>
     </footer>
 
+    <script src="./script.js" type="module" defer></script>
+    <script src="./dropdowns.js" type="module" defer></script>
+    <script src="./loginToHome.js" type="module" defer></script>
 </body>
 
 </html>

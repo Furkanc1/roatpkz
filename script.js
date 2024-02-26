@@ -1,4 +1,7 @@
-let storedPlayers = localStorage.getItem(`players`);
+// localStorage.removeItem('userEmail');
+// localStorage.removeItem('users');
+
+let storedPlayers = localStorage.getItem(`users`);
 let players = storedPlayers
   ? JSON.parse(storedPlayers)
   : Array(531).fill(null);
@@ -11,16 +14,66 @@ let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
 let user = storedUser ? JSON.parse(storedUser) : [];
 
-const signUpLogic = (data) => {
+const storeUserInLocal = (data) => {
+    // define email + password as the ID of "email" & "password" from the signup form
+    let email = document.getElementById('email').value
+    let username = document.getElementById('userName').value
+    let password = document.getElementById('password').value
+
+    // Two Methods of storing data LOCALLY:
+    // 1) 
+    // setting the .VALUE of those ID's as local storage, (key value pairs) userEmail : email(variable above) // userPassword : password(variable above)
+    localStorage.setItem('userEmail', email)
+    // not too important just want it for the header
+    localStorage.setItem('userName', username)
+    localStorage.setItem('userPassword', password)
+    
+    // This is logic i dont understand too well, but it essentially defines a variable to check and see if a user exists in the database by referencing the users email
+    let existingUser = users.some(user => user.email === email)
+
+    // IF the user DOES NOT exist, then the if condition will .push() the NEWLY entered EMAIL + PASSWORD into the usersArray, and then set it as local storage as well under Key ( users : {username, email, password}, {username, email, password}, {username, email, password} ...etc )
+    if(!existingUser) {
+        users.push({username, email, password})
+        localStorage.setItem('users', JSON.stringify(users))
+        console.log("User successfully added", users)
+    } else {
+        console.log('Email already exists !')
+    }
+
+    // 2)
+    // localStorage.userEmail = email
+    // localStorage.userPassword = password
+
     // If the email does not exist, sign the user up by storing them in localstorage
     // If the email does exist => sign in logic
-    console.log(`User is trying to sign up`, data);
+    // console.log(`User is trying to sign up`, data);
 }
 
-const signInLogic = (data) => {
+const checkUserInfoLogic = (data) => {
+    let enteredEmail = document.getElementById('email').value
+    let enteredPassword = document.getElementById('password').value
+    // Commented this out because it was stopping me from loggin in using ALL users Info (it only allowed the LATEST user to log in)
+    // let storedEmail = localStorage.getItem('userEmail')
+    // let storedPassword = localStorage.getItem('userPassword')
+    
+    // new logic to compare entered emails + password against the array of ALL users:
+    let storedUsers = localStorage.getItem('users')
+    let users = storedUsers ? JSON.parse(storedUsers) : []
+
+    // This version uses the some method to iterate through the array of users and check if at least one user has matching email and password (via-chatgpt)
+    let userDoesExistCheck = users.some(user => user.email === enteredEmail && user.password === enteredPassword)
+
+    // if the user DOES exist within the array of users stored in local storage, THEN we get success message
+    if(userDoesExistCheck) {
+        console.log('User Succesfully Signed In')
+    } else {
+        console.log('Email or Password was Incorrect.')
+    }
     // Check if the email exists in ou localstorage, if it does, now check their password, if both match, log user in with localstorage
-    console.log(`User is trying to sign in`, data);
+    // console.log(`User is trying to sign in`, data);
 }
+
+
 
 let forms = document.querySelectorAll(`form`);
 if (forms && forms.length > 0) {
@@ -42,9 +95,9 @@ if (forms && forms.length > 0) {
             }
 
             if (formThatWasSubmitted.classList.contains(`signUpForm`)) {
-                signUpLogic(dataToPassToFunctions);
+                storeUserInLocal(dataToPassToFunctions);
             } else if (formThatWasSubmitted.classList.contains(`signInForm`)) {
-                signInLogic(dataToPassToFunctions);
+                checkUserInfoLogic(dataToPassToFunctions);
             }
         })
     })

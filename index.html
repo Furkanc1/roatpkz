@@ -24,28 +24,26 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./style.css">
-    <script src="./script.js" type="module" defer></script>
-    <script src="./dropdowns.js" type="module" defer></script>
-    <script src="./dynamicHiscores.js" defer></script>
 </head>
 
 <body class="mainContentOfWebsite">
     
     <header>
       <div class="headerContainer">
-        <div class="topbar flexRow">
-            <div class="dropdownCol flexRow leftCol">
-                <div class="dropdown fontColorMain">More On Roat PKZ</div>
-                <button class="dropdownButton"></button>
+          <div class="topbar flexRow">
+              <div class="dropdownCol flexRow leftCol">
+                  <div class="dropdown fontColorMain">More On Roat PKZ</div>
+                  <button class="dropdownButton"></button>
                 <div class="dropdown-content">
                     <a href="#">Vote</a>
                     <a href="#">Item-List</a>
                     <a href="#">Drop-Table</a>
                   </div>
-                <div class="colContent spacer"></div>
+                  <div class="colContent spacer"></div>
             </div>
             <div class="middleCol">
-                <div class="topbarTimerMessage">RoatPKZ | The Current Time is <span class="currentTime">0H 20M 48S</span></div>
+                <div class="topbarTimerMessage">RoatPKZ | <span class="userNameAreaForInsertion"> User Name Here</span>  </div>
+                <!-- The Current Time is <span class="currentTime">0H 20M 48S</span> -->
             </div>
             <div class="flexRow rightCol">
                 <div class="colContent spacer">
@@ -58,7 +56,7 @@
                     <div class="dropdown-content registerDropdown-content">
                         <a href="./login.html">Login</a>
                         <a href="./signup.html">Sign-Up</a>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,7 +78,7 @@
                     <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Hiscores</a></li>
                     <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Download</a></li>
                     <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Vote</a></li>
-                <!-- </div> -->
+                    <!-- </div> -->
             </ul>
         </nav>
       </div>
@@ -115,7 +113,10 @@
     <footer>
         <h2>Roat PKZ | Copyright <i class="copyrightFooter"></i> <span class="year">2024</span> </h2>
     </footer>
-
+    
+    <script src="./script.js" type="module" defer></script>
+    <script src="./dropdowns.js" type="module" defer></script>
+    <script src="./nameInHeader.js" type="module" defer></script>
 </body>
 
 </html>
