@@ -1,4 +1,3 @@
-
 const goBackToHomeAfterSignin = () => {
     location.href = './index.html'
 }

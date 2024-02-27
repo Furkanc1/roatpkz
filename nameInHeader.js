@@ -6,7 +6,7 @@ const setUserNameInHeader = () => {
     
     // if username EXISTS, (meaning there is something in local storage called username (key) and has a value (key value pair) it will run the success condition which dynamically populates (used Concating method as well))
     if (username) {
-        dynamicNameInsertSpan.textContent = `Welcome Sir, ${username}`
+        dynamicNameInsertSpan.textContent = `Welcome, Sir ${username}`
     } else {
         // else just a hard coded, welcome sir, guest
         dynamicNameInsertSpan.textContent = `Welcome Sir, Guest`
