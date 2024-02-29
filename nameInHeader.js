@@ -14,4 +14,4 @@ const setUserNameInHeader = () => {
 }
 
 // need to call the function in order for it to work (duh)
-setUserNameInHeader();
+// setUserNameInHeader();

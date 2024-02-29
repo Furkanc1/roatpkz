@@ -12,33 +12,122 @@ let users = storedUsers ? JSON.parse(storedUsers) : [];
 
 let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
-let user = storedUser ? JSON.parse(storedUser) : [];
+let user = storedUser ? JSON.parse(storedUser) : null;
 
-const storeUserInLocal = (data) => {
+if (user != null) {
+    // User is Sign In
+    let dynamicNameInsertSpan = document.querySelector(".userNameAreaForInsertion");
+    dynamicNameInsertSpan.innerHTML = `Welcome, Sir ${user?.displayName}`;
+
+    let hideTheseOnLoggedIn = document.querySelectorAll(`.hiddenOnLoggedIn`);
+    if (hideTheseOnLoggedIn && hideTheseOnLoggedIn.length > 0) {
+        hideTheseOnLoggedIn.forEach(itemWeWantToHide => {
+            itemWeWantToHide.classList.add(`hidden`);
+        })
+    }
+} else {
+    let hideTheseOnLoggedOut = document.querySelectorAll(`.hiddenOnLoggedOut`);
+    if (hideTheseOnLoggedOut && hideTheseOnLoggedOut.length > 0) {
+        hideTheseOnLoggedOut.forEach(itemWeWantToHide => {
+            itemWeWantToHide.classList.add(`hidden`);
+        })
+    }
+}
+
+let roles = {
+    Subscriber: {
+        level: 1,
+        type: `Subscriber`
+    },
+    Follower: {
+        level: 2,
+        type: `Follower`
+    },
+    User: {
+        level: 3,
+        type: `User`
+    },
+    Premium: {
+        level: 4,
+        type: `Premium`
+    },
+    Investor: {
+        level: 5,
+        type: `Investor`
+    },
+    Mod: {
+        level: 6,
+        type: `Mod`
+    },
+    Stakeholder: {
+        level: 7,
+        type: `Stakeholder`
+    },
+    Admin: {
+        level: 8,
+        type: `Admin`
+    },
+    Developer: {
+        level: 9,
+        type: `Developer`
+    },
+    Owner: {
+        level: 10,
+        type: `Owner`
+    },
+}
+
+const capitalizeFirstLetter = (stringOfLettersWeWantToCapitalizeTheFirstLetterOf) => {
+
+    // EXAMPLE: test
+    let uppercasedFirstLetter = stringOfLettersWeWantToCapitalizeTheFirstLetterOf.charAt(0).toUpperCase();
+    // EXAMPLE: T
+
+    let restOfTheWord = stringOfLettersWeWantToCapitalizeTheFirstLetterOf.slice(1);
+    // EXAMPLE: est
+
+    let capitalizedWord = uppercasedFirstLetter + restOfTheWord;
+    // EXAMPLE: Test
+
+    return capitalizedWord;
+}
+
+const storeUserInDatabase = (userToSignUp) => {
+
+    users.push(userToSignUp);
+    localStorage.setItem(`users`, JSON.stringify(users));
+    
+    console.log(`User To Sign Up`, userToSignUp);
+    console.log(`Updated Users`, users);
+
+    location.href = './login.html';
+
     // define email + password as the ID of "email" & "password" from the signup form
-    let email = document.getElementById('email').value
-    let username = document.getElementById('userName').value
-    let password = document.getElementById('password').value
+    // let email = document.getElementById('email').value
+    // let username = document.getElementById('userName').value
+    // let password = document.getElementById('password').value
 
     // Two Methods of storing data LOCALLY:
     // 1) 
     // setting the .VALUE of those ID's as local storage, (key value pairs) userEmail : email(variable above) // userPassword : password(variable above)
-    localStorage.setItem('userEmail', email)
+
+    // localStorage.setItem('userEmail', email)
     // not too important just want it for the header
-    localStorage.setItem('userName', username)
-    localStorage.setItem('userPassword', password)
+
+    // localStorage.setItem('userName', username)
+    // localStorage.setItem('userPassword', password)
     
     // This is logic i dont understand too well, but it essentially defines a variable to check and see if a user exists in the database by referencing the users email
-    let existingUser = users.some(user => user.email === email)
+    // let existingUser = users.some(user => user.email === email)
 
     // IF the user DOES NOT exist, then the if condition will .push() the NEWLY entered EMAIL + PASSWORD into the usersArray, and then set it as local storage as well under Key ( users : {username, email, password}, {username, email, password}, {username, email, password} ...etc )
-    if(!existingUser) {
-        users.push({username, email, password})
-        localStorage.setItem('users', JSON.stringify(users))
-        console.log("User successfully added", users)
-    } else {
-        console.log('Email already exists !')
-    }
+    // if (!existingUser) {
+    //     users.push({username, email, password})
+    //     localStorage.setItem('users', JSON.stringify(users))
+    //     console.log("User successfully added", users)
+    // } else {
+    //     console.log('Email already exists !')
+    // }
 
     // 2)
     // localStorage.userEmail = email
@@ -49,25 +138,56 @@ const storeUserInLocal = (data) => {
     // console.log(`User is trying to sign up`, data);
 }
 
-const checkUserInfoLogic = (data) => {
-    let enteredEmail = document.getElementById('email').value
-    let enteredPassword = document.getElementById('password').value
+const signInLogic = (userTryingToSignInOrSignUpData) => {
+    // let enteredEmail = document.getElementById('email').value
+    // let enteredPassword = document.getElementById('password').value
     // Commented this out because it was stopping me from loggin in using ALL users Info (it only allowed the LATEST user to log in)
     // let storedEmail = localStorage.getItem('userEmail')
     // let storedPassword = localStorage.getItem('userPassword')
     
     // new logic to compare entered emails + password against the array of ALL users:
-    let storedUsers = localStorage.getItem('users')
-    let users = storedUsers ? JSON.parse(storedUsers) : []
+    // Get Latest Snapshot of Users
+    // let storedUsers = localStorage.getItem('users')
+    // let users = storedUsers ? JSON.parse(storedUsers) : []
 
     // This version uses the some method to iterate through the array of users and check if at least one user has matching email and password (via-chatgpt)
-    let userDoesExistCheck = users.some(user => user.email === enteredEmail && user.password === enteredPassword)
+    let enteredEmail = userTryingToSignInOrSignUpData?.email;
+    let userExistsInDB = users.some(usr => usr.email === enteredEmail);
 
     // if the user DOES exist within the array of users stored in local storage, THEN we get success message
-    if(userDoesExistCheck) {
-        console.log('User Succesfully Signed In')
+    if (userExistsInDB) {
+        let enteredPassword = userTryingToSignInOrSignUpData?.password;
+        let userFromDBToSignInWithCorrectPassword = users.find(usr => usr.email === enteredEmail && usr.password === enteredPassword);
+
+        if (userFromDBToSignInWithCorrectPassword) {
+
+            let modifiedUserToSignIn = {
+                updated: new Date().toLocaleString(),
+                lastSignIn: new Date().toLocaleString(),
+                ...userFromDBToSignInWithCorrectPassword,
+            }
+
+            console.log('User Succesfully Signed In', modifiedUserToSignIn);
+
+            // Add modified user back to Database
+            users = users.map(usr => {
+                if (usr?.email == modifiedUserToSignIn?.email) {
+                    return modifiedUserToSignIn;
+                } else {
+                    return usr;
+                }
+            })
+            localStorage.setItem(`users`, JSON.stringify(users));
+
+            // Sign User In
+            localStorage.setItem(`user`, JSON.stringify(modifiedUserToSignIn));
+            location.href = './';
+        } else {
+            console.log('Email or Password was Incorrect.');
+        }
     } else {
-        console.log('Email or Password was Incorrect.')
+        console.log('Email does not exist in Database, Sign Up.');
+        // location.href = './signup.html';
     }
     // Check if the email exists in ou localstorage, if it does, now check their password, if both match, log user in with localstorage
     // console.log(`User is trying to sign in`, data);
@@ -79,74 +199,82 @@ const checkUserInfoLogic = (data) => {
 let forms = document.querySelectorAll(`form`);
 if (forms && forms.length > 0) {
     forms.forEach(form => {
+        // Listen for whenever the form is submitted
         form.addEventListener(`submit`, onFormSubmitEvent => {
-            onFormSubmitEvent.preventDefault();
+            // Preventing the default behavior of forms where they wanna refresh and throw data into the URL
+            onFormSubmitEvent.preventDefault(); 
 
+            // If you console.log(onFormSubmitEvent), you will see all the data that the Submit Event comes with for free
+            // Inside of that free Submit Event data, there is a property called target, which is the form at the moment of from submit
+            // console.log(`Form Submit Event`, onFormSubmitEvent);
             let formThatWasSubmitted = onFormSubmitEvent.target;
 
-            let emailField = formThatWasSubmitted?.email;
-            let passwordField = formThatWasSubmitted?.password;
+            if (formThatWasSubmitted.classList.contains(`authForm`)) {
+                // This destructuring example is doing the same thing as the lines below but in one line
+                // let { email: emailField, username: usernameField password: passwordField } = formThatWasSubmitted;
 
-            // let { name: nameField, password: passwordField } = formThatWasSubmitted;
+                let isSignUpForm = formThatWasSubmitted.classList.contains(`signUpForm`);
+                let isSignInForm = formThatWasSubmitted.classList.contains(`signInForm`);
+                
+                let emailField = formThatWasSubmitted?.email;
+                let passwordField = formThatWasSubmitted?.password;
 
-            let dataToPassToFunctions = {
-                formThatWasSubmitted,
-                email: emailField?.value,
-                password: passwordField?.value,
+                let lowercasedEmail = emailField?.value?.toLowerCase();
+    
+                // We define Data to Pass To Functions
+                let userTryingToSignInOrSignUp = {
+                    email: lowercasedEmail,
+                    password: passwordField?.value,
+                    
+                    // Conditional Properties inside of Objects
+                    // ...(isSignUpForm && {
+                    //     username: usernameField?.value
+                    // })
+                }
+
+                // console.log(`Data to Pass To Functions Before Modifications`, dataToPassToFunctions);
+    
+                // If Sign Up
+                if (isSignUpForm) {
+
+                    // Check if the User Exists
+                    let userEmailsOnly = users.map(usr => usr.email);
+                    let usersEmailExistsInDB = userEmailsOnly.includes(userTryingToSignInOrSignUp.email);
+                    if (usersEmailExistsInDB) {
+                        console.log(`User already exists`);
+                        location.href = './login.html';
+                    } else {
+                        let usernameField = formThatWasSubmitted?.userName;
+                        let lowercasedEmailName = lowercasedEmail?.split(`@`)[0];
+    
+                        // We create the User Model we want to store
+                        let userToSignUp = { 
+    
+                            // Here we are cloning all the previous properties from the object
+                            ...userTryingToSignInOrSignUp, 
+    
+                            // Custom Properties
+                            roles: [roles.User],
+                            status: `Hello, I'm New`,
+                            username: usernameField?.value,
+                            date: new Date().toLocaleString(),
+                            displayName: capitalizeFirstLetter(lowercasedEmailName),
+                        };
+    
+                        // console.log(`Data to Pass To Functions on Sign Up`, dataToPassToFunctions);
+    
+                        storeUserInDatabase(userToSignUp);
+                    }
+
+                // If Sign In 
+                } else if (isSignInForm) {
+                    signInLogic(userTryingToSignInOrSignUp);
+                }
             }
 
-            if (formThatWasSubmitted.classList.contains(`signUpForm`)) {
-                storeUserInLocal(dataToPassToFunctions);
-            } else if (formThatWasSubmitted.classList.contains(`signInForm`)) {
-                checkUserInfoLogic(dataToPassToFunctions);
-            }
         })
     })
 }
-
-const setHeaderDynamically = () => {
-  const header = $(`
-        <header class="insertedDynamicallyFromJS">
-            <div class="topbar flexRow">
-                <div class="flexRow leftCol">
-                    <div class="dropdown fontColorMain">More On Roat PKZ</div>
-                    <div class="colContent spacer"></div>
-                </div>
-                <div class="middleCol">
-                    <div class="topbarTimerMessage">A 10M Zerker Tournament starts in 0H 20M 48S</div>
-                </div>
-                <div class="flexRow rightCol">
-                    <div class="colContent spacer">
-                        <span>531 Players</span>
-                        <span class="hideThisOnMobile">are online</span>
-                    </div>
-                    <div class="dropdown fontColorMain">Join Them</div>
-                </div>
-            </div>
-            <nav class="navbar">
-                <ul class="flexRow menu">
-                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Home</a></li>
-                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Forum</a></li>
-                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Donate</a></li>
-                    <li class="menuListItem">
-                        <a class="menuLink fontColorMain" href="#">
-                            <div class="navbarLogo">
-                                <img src="https://roatpkz.com/data/images/logonew.png" alt="ROAT PKZ">
-                            </div>
-                        </a>
-                    </li>
-                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Hiscores</a></li>
-                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Download</a></li>
-                    <li class="menuListItem"><a class="menuLink fontColorMain" href="#">Vote</a></li>
-                </ul>
-            </nav>
-        </header>
-    `);
-
-  $(`body`).prepend(header);
-};
-
-// setHeaderDynamically();
 
 const setCopyrightYearDynamically = () => {
   // jQuery

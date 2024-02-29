@@ -1,5 +1,5 @@
 const goBackToHomeAfterSignin = () => {
-    location.href = './index.html'
+    location.href = './index.html';
 }
 
-document.querySelector('#loginBtn').addEventListener('click', goBackToHomeAfterSignin)
+// document.querySelector('#loginBtn').addEventListener('click', goBackToHomeAfterSignin);

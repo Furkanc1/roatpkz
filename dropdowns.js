@@ -15,8 +15,16 @@ if (allDropdownCols && allDropdownCols.length > 0) {
             let dropdownBtn = containerToConsider.querySelector(`.dropdownButton`);
             let dropdownContent = containerToConsider.querySelector(`.dropdown-content`);
 
-            dropdownBtn.classList.toggle(`flippingDropdownButton`);
-            dropdownContent.classList.toggle(`expanded`);
+            let logoutButtonClicked = dropdownBtn.classList.contains(`dropdownButtonLogout`);
+
+            if (logoutButtonClicked) {
+                localStorage.removeItem(`user`);
+                window.location.reload();
+            } else {
+                dropdownBtn.classList.toggle(`flippingDropdownButton`);
+                dropdownContent.classList.toggle(`expanded`);
+            }
+
         })
     })
 }
