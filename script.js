@@ -13,7 +13,7 @@ let users = storedUsers ? JSON.parse(storedUsers) : [];
 let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
 let user = storedUser ? JSON.parse(storedUser) : null;
-
+console.log(user)
 if (user != null) {
     // User is Sign In
     let dynamicNameInsertSpan = document.querySelector(".userNameAreaForInsertion");
@@ -193,8 +193,37 @@ const signInLogic = (userTryingToSignInOrSignUpData) => {
     // console.log(`User is trying to sign in`, data);
 }
 
-// NEED TO ADD IF GUARD FOR if (logged in) then 1) no login/register option ONLY logout option 2) TBD
+// STUCK HERE !!
+const updateProfileLogic = (orignalUserModel, userTryingToEditProfile) => {
+    console.log("Info", userTryingToEditProfile)
+    let updatedUsername = userTryingToEditProfile?.username;
+    let password = userTryingToEditProfile?.password;
+    let updatedStatus = userTryingToEditProfile?.status;
 
+    let usersUpdatedData = {
+        updated: new Date().toLocaleString(),
+        ...userTryingToEditProfile,
+        username: updatedUsername,
+        // password: updatedPassword,
+        status: updatedStatus,
+    }
+
+    // if the password matched with the users actual account password, then do the following:
+    if (password == orignalUserModel.passwordField) {
+        // Add updated user back to Database
+        user = users.map(update => {
+        if (update?.username == usersUpdatedData?.username) {
+            return usersUpdatedData;
+        } else {
+            return update;
+        }  
+    })
+    console.log("updatedProfile(official):", usersUpdatedData, "update:", update)
+    localStorage.setItem(`users`, JSON.stringify(user));
+    } else {
+        console.log("password incorrect")
+    }
+}
 
 let forms = document.querySelectorAll(`form`);
 if (forms && forms.length > 0) {
@@ -215,11 +244,20 @@ if (forms && forms.length > 0) {
 
                 let isSignUpForm = formThatWasSubmitted.classList.contains(`signUpForm`);
                 let isSignInForm = formThatWasSubmitted.classList.contains(`signInForm`);
+                let editProfileForm = formThatWasSubmitted.classList.contains(`editProfileForm`);
                 
                 let emailField = formThatWasSubmitted?.email;
                 let passwordField = formThatWasSubmitted?.password;
 
+                let statusField = formThatWasSubmitted?.editStatus;
+                let usernameField = formThatWasSubmitted?.edittedUserName;
+                // let user = storedUser ? JSON.parse(storedUser) : null;
+
+
+
+                
                 let lowercasedEmail = emailField?.value?.toLowerCase();
+                let lowercasedEmailName = lowercasedEmail?.split(`@`)[0];
     
                 // We define Data to Pass To Functions
                 let userTryingToSignInOrSignUp = {
@@ -231,6 +269,22 @@ if (forms && forms.length > 0) {
                     //     username: usernameField?.value
                     // })
                 }
+
+                let LoggedInUserModel = {
+                    roles: [roles.User],
+                    status: `Hello, I'm New`,
+                    username: usernameField?.value,
+                    date: new Date().toLocaleString(),
+                }
+                // We define Data to Pass To Functions
+                let userTryingToEditProfile = {
+                    ...LoggedInUserModel,
+                    username: usernameField?.value,
+                    password: passwordField?.value,
+                    status: statusField?.value,
+                }
+
+                // define logged in User model
 
                 // console.log(`Data to Pass To Functions Before Modifications`, dataToPassToFunctions);
     
@@ -269,6 +323,8 @@ if (forms && forms.length > 0) {
                 // If Sign In 
                 } else if (isSignInForm) {
                     signInLogic(userTryingToSignInOrSignUp);
+                } else if (editProfileForm) {
+                    updateProfileLogic(LoggedInUserModel,userTryingToEditProfile)
                 }
             }
 
