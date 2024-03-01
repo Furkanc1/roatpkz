@@ -18,9 +18,10 @@ if (allDropdownCols && allDropdownCols.length > 0) {
             let logoutButtonClicked = dropdownBtn.classList.contains(`dropdownButtonLogout`);
 
             if (logoutButtonClicked) {
-                localStorage.removeItem(`user`);
-                window.location.reload();
+                // localStorage.removeItem(`user`);
+                // window.location.reload();
             } else {
+                console.log('here you are')
                 dropdownBtn.classList.toggle(`flippingDropdownButton`);
                 dropdownContent.classList.toggle(`expanded`);
             }

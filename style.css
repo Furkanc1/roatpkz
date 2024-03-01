@@ -43,6 +43,30 @@ body {
   justify-content: space-between;
 }
 
+.flexBox {
+  display: flex;
+  grid-gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.textStyle {
+  font-weight: 700;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.textStyle:hover {
+  font-weight: 700;
+  background: none;
+  border: none;
+  color: white;
+  text-shadow: black 2px 2px 5px;
+}
+
 .hidden {
   display: none !important;
 }
@@ -231,8 +255,8 @@ section {
   height: 0;
   border-style: solid;
   border-width: 8px 5px 0px 5px;
-  border-color: #ffffff transparent transparent transparent;
   background-color: transparent;
+  border-color: #ffffff transparent transparent transparent;
 }
 
 .registerDropDownButton {
@@ -240,8 +264,8 @@ section {
   height: 0;
   border-style: solid;
   border-width: 8px 5px 0px 5px;
-  border-color: #ffffff transparent transparent transparent;
   background-color: transparent;
+  border-color: #ffffff transparent transparent transparent;
 }
 
 .flippingDropdownButton {
@@ -261,6 +285,49 @@ section {
   cursor: pointer;
   position: relative;
 }
+
+.boxBorder {
+  border-radius: 20px;
+  padding: 1px;
+  border: solid 1px;
+  text-align: center;
+  margin: 0px;
+}
+
+#textInsideContainer {
+  padding: 5px;
+}
+
+.playerInfoToInsertToList {
+  text-align: center;
+}
+
+.statusCheckContainer {
+  grid-template-columns: repeat(2, 145px);
+  grid-gap: 10px;
+  display: grid;
+  justify-content: center;
+  padding: 60px 135px 20px;
+}
+.editProfileContainer {
+  justify-content: center;
+  padding: 60px 135px 20px;
+}
+
+.playerStatusList {
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  display: flex;
+}
+
+.editProfileBtn {
+  background: none;
+  border: none;
+  color: white;
+  text-decoration: none;
+}
+
 
 .dropdown-content {
   left: 50%;

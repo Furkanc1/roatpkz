@@ -65,11 +65,10 @@
                     </div>
                 </div>
                 <div class="rightSideDropdown dropdownCol hiddenOnLoggedOut">
-                    <div class="dropdown fontColorMain">Profile</div>
-                    <button class="dropdownButton dropdown registerDropDownButton"></button>
-                    <div class="dropdown dropdown-content profileDropdown-content">
-                        <a class= "dropdownButtonLogout" href="./settings.html">Settings</a>
-                        <a class= "dropdownButtonLogout">Log Out</a>
+                    <div class="dropdown fontColorMain">Logout</div>
+                    <button class="dropdown dropdown-content profileDropdown-content"></button>
+                    <div class="expanded dropdown-content registerDropdown-content">
+                        <a href="#">Logout</a>
                     </div>
                 </div>
             </div>
@@ -98,30 +97,23 @@
       </div>
     </header>
 
-    <main>
-        <section>
-            <div class="titleBox">
-                <h1 class="titleText">Get Ready For An</h1>
-                <h1 class="adventureText">Adventure!</h1>
+    <main class="flexBox">
+        <div class="statusCheckContainer">
+            <div class="boxBorder">
+                <h2 id="textInsideContainer">Players:</h2> 
             </div>
-            <div class="subtitleText">
-                <p>Join the most active Wilderness in the scene, we are a community</p>
-                <br>
-                <p>driven server that strives to create the most enjoyable experience for you!</p>
+            
+            <div class="boxBorder">
+                <h2 id="textInsideContainer">Status:</h2>
             </div>
-            <button class="playNowButton">PLAY NOW</button>
-        </section>
-        <div class="scrollDownTextBox">
-            <p class="scrollDownText" href="#information"> Scroll Down For More!</p>
-        </div>
-        <div class="newsTitleContainer">
-            <section id="information">
-                <h2 id="newsSectionTitle">The Latest From Roat PKZ</h2>
-            </section>
-        </div>
-        <div class="informationSectionContainer">
-            <h1 class="newsBox">NewsBox Here</h1>
-        </div>
+
+            <div class="playerStatusList">  
+                <div class="playerInfoToInsertToList">Name</div> 
+            </div>
+            <div class="playerStatusList">  
+                <div class="playerInfoToInsertToList">Status</div> 
+            </div> 
+    </div>
     </main>
 
     <footer>
