@@ -194,36 +194,78 @@ const signInLogic = (userTryingToSignInOrSignUpData) => {
 }
 
 // STUCK HERE !!
-const updateProfileLogic = (orignalUserModel, userTryingToEditProfile) => {
-    console.log("Info", userTryingToEditProfile)
-    let updatedUsername = userTryingToEditProfile?.username;
-    let password = userTryingToEditProfile?.password;
-    let updatedStatus = userTryingToEditProfile?.status;
+// const updateProfileLogic = (usersData, userTryingToEditProfile) => {
+//     console.log("Info", userTryingToEditProfile)
+//     let enteredPassword = usersData?.password;
+//     let userExistsInDB = users.some(usr => usr.password === enteredPassword);
 
-    let usersUpdatedData = {
-        updated: new Date().toLocaleString(),
-        ...userTryingToEditProfile,
-        username: updatedUsername,
-        // password: updatedPassword,
-        status: updatedStatus,
-    }
+//     let updatedUsername = userTryingToEditProfile?.username;
+//     let password = userTryingToEditProfile?.password;
+//     let updatedStatus = userTryingToEditProfile?.status;
+//     // let email = userTryingToEditProfile?.email
 
-    // if the password matched with the users actual account password, then do the following:
-    if (password == orignalUserModel.passwordField) {
-        // Add updated user back to Database
-        user = users.map(update => {
-        if (update?.username == usersUpdatedData?.username) {
-            return usersUpdatedData;
+//     let usersUpdatedData = {
+//         updated: new Date().toLocaleString(),
+//         ...userTryingToEditProfile,
+//         username: updatedUsername,
+//         email: enteredPassword,
+//         password: password,
+//         status: updatedStatus,
+//     }
+//     console.log("usersUpdatedDate:", usersUpdatedData)
+
+//     // if the password matched with the users actual account password, then do the following:
+//     if (userExistsInDB) {
+//         // Add updated user back to Database
+//         user = users.map(update => {
+//         if (update?.password == usersUpdatedData?.password) {
+//             console.log("You made it HERE")
+//             return usersUpdatedData;
+//         } else {
+//             console.log("Return of Update:",update)
+//             return update;
+
+//         }  
+//     })
+//     console.log("updatedProfile(official):", usersUpdatedData)
+//     localStorage.setItem(`users`, JSON.stringify(user));
+//     } else {
+//         console.log("password was incorrect!")
+//     }
+// }
+
+
+// chat GPT's Method: I officially give up GG (doesnt work either)
+const updateProfileLogic = (userTryingToEditProfile) => {
+    console.log("Info", userTryingToEditProfile);
+
+    // Check if the user is currently logged in
+    if (user) {
+        let enteredEmail = user.email;
+        let userIndex = users.findIndex(usr => usr.email === enteredEmail);
+
+        if (userIndex !== -1) {
+            // Update the user's profile
+            let updatedUser = {
+                updated: new Date().toLocaleString(),
+                ...userTryingToEditProfile,
+                email: enteredEmail,
+            };
+
+            // Update user in the users array
+            users[userIndex] = updatedUser;
+
+            // Update local storage
+            localStorage.setItem(`users`, JSON.stringify(users));
+
+            console.log("Updated Profile:", updatedUser);
         } else {
-            return update;
-        }  
-    })
-    console.log("updatedProfile(official):", usersUpdatedData, "update:", update)
-    localStorage.setItem(`users`, JSON.stringify(user));
+            console.log("User not found in the database.");
+        }
     } else {
-        console.log("password incorrect")
+        console.log("User not logged in.");
     }
-}
+};
 
 let forms = document.querySelectorAll(`form`);
 if (forms && forms.length > 0) {
@@ -270,15 +312,16 @@ if (forms && forms.length > 0) {
                     // })
                 }
 
-                let LoggedInUserModel = {
-                    roles: [roles.User],
-                    status: `Hello, I'm New`,
-                    username: usernameField?.value,
-                    date: new Date().toLocaleString(),
-                }
+                // let LoggedInUserModel = {
+                //     roles: [roles.User],
+                //     status: `Hello, I'm New`,
+                //     username: usernameField?.value,
+                //     date: new Date().toLocaleString(),
+                // }
+
                 // We define Data to Pass To Functions
                 let userTryingToEditProfile = {
-                    ...LoggedInUserModel,
+                    ...userTryingToSignInOrSignUp,
                     username: usernameField?.value,
                     password: passwordField?.value,
                     status: statusField?.value,
@@ -324,7 +367,7 @@ if (forms && forms.length > 0) {
                 } else if (isSignInForm) {
                     signInLogic(userTryingToSignInOrSignUp);
                 } else if (editProfileForm) {
-                    updateProfileLogic(LoggedInUserModel,userTryingToEditProfile)
+                    updateProfileLogic(userTryingToSignInOrSignUp,userTryingToEditProfile)
                 }
             }
 
