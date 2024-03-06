@@ -13,7 +13,7 @@ let users = storedUsers ? JSON.parse(storedUsers) : [];
 let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
 let user = storedUser ? JSON.parse(storedUser) : null;
-console.log(user)
+// console.log(user)
 if (user != null) {
     // User is Sign In
     let dynamicNameInsertSpan = document.querySelector(".userNameAreaForInsertion");
@@ -194,78 +194,88 @@ const signInLogic = (userTryingToSignInOrSignUpData) => {
 }
 
 // STUCK HERE !!
-// const updateProfileLogic = (usersData, userTryingToEditProfile) => {
-//     console.log("Info", userTryingToEditProfile)
-//     let enteredPassword = usersData?.password;
-//     let userExistsInDB = users.some(usr => usr.password === enteredPassword);
+const updateProfileLogic = (usersData, userTryingToEditProfile) => {
+    // console.log("Info", userTryingToEditProfile)
+    let enteredPassword = usersData?.password;
+    let usersPassword = users.some(usr => usr.password === enteredPassword);
 
-//     let updatedUsername = userTryingToEditProfile?.username;
-//     let password = userTryingToEditProfile?.password;
-//     let updatedStatus = userTryingToEditProfile?.status;
-//     // let email = userTryingToEditProfile?.email
+    let updatedUsername = userTryingToEditProfile?.username;
+    let password = userTryingToEditProfile?.password;
+    let updatedStatus = userTryingToEditProfile?.status;
+    // let email = userTryingToEditProfile?.email
 
-//     let usersUpdatedData = {
-//         updated: new Date().toLocaleString(),
-//         ...userTryingToEditProfile,
-//         username: updatedUsername,
-//         email: enteredPassword,
-//         password: password,
-//         status: updatedStatus,
-//     }
-//     console.log("usersUpdatedDate:", usersUpdatedData)
+    let usersUpdatedData = {
+        updated: new Date().toLocaleString(),
+        ...userTryingToEditProfile,
+        username: updatedUsername,
+        email: enteredPassword,
+        password: password,
+        status: updatedStatus,
+    }
+    console.log("users new data to replace with old:", usersUpdatedData)
 
-//     // if the password matched with the users actual account password, then do the following:
-//     if (userExistsInDB) {
-//         // Add updated user back to Database
-//         user = users.map(update => {
-//         if (update?.password == usersUpdatedData?.password) {
-//             console.log("You made it HERE")
-//             return usersUpdatedData;
-//         } else {
-//             console.log("Return of Update:",update)
-//             return update;
+    // if the password matched with the users actual account password, then do the following:
+    if (enteredPassword == usersPassword) {
+        console.log("You just entered first if condition")
+        if (user) {
+            console.log("You just entered the nested If Condition")
+            // Add updated user back to Database
+            user = users.map(update => {
+            if (update?.password == usersUpdatedData?.password) {
+                console.log("You made it HERE", usersUpdatedData)
+                return usersUpdatedData;
+            } else {
+                console.log("something went wrong with nested If statement!")
+                console.log("Nested Else (return update): ", update)
+                return update;
 
-//         }  
-//     })
-//     console.log("updatedProfile(official):", usersUpdatedData)
-//     localStorage.setItem(`users`, JSON.stringify(user));
-//     } else {
-//         console.log("password was incorrect!")
-//     }
-// }
+            }  
+        })
+        // console.log("usersData", usersData)
+        localStorage.setItem(`users`, JSON.stringify(user));
+        // console.log("userTryingToEdit:", userTryingToEditProfile)
+        console.log("updatedProfile(official):", usersUpdatedData)
+        } else {
+            console.log("password was incorrect!")
+        }
+    } else {
+        // console.log("userTryingToEdit:", userTryingToEditProfile)
+        // console.log("usersData", usersData)
+    }
+}
 
 
 // chat GPT's Method: I officially give up GG (doesnt work either)
-const updateProfileLogic = (userTryingToEditProfile) => {
-    console.log("Info", userTryingToEditProfile);
+// const updateProfileLogic = (userTryingToEditProfile) => {
+//     console.log("Info", userTryingToEditProfile);
 
-    // Check if the user is currently logged in
-    if (user) {
-        let enteredEmail = user.email;
-        let userIndex = users.findIndex(usr => usr.email === enteredEmail);
+//     // Check if the user is currently logged in
+//     if (user) {
+//         let enteredEmail = user.email;
+//         let userIndex = users.findIndex(usr => usr.email === enteredEmail);
 
-        if (userIndex !== -1) {
-            // Update the user's profile
-            let updatedUser = {
-                updated: new Date().toLocaleString(),
-                ...userTryingToEditProfile,
-                email: enteredEmail,
-            };
+//         if (userIndex !== -1) {
+//             // Update the user's profile
+//             let updatedUser = {
+//                 updated: new Date().toLocaleString(),
+//                 ...userTryingToEditProfile,
+//                 email: enteredEmail,
+//             };
 
-            // Update user in the users array
-            users[userIndex] = updatedUser;
+//             // Update user in the users array
+//             users[userIndex] = updatedUser;
 
-            // Update local storage
-            localStorage.setItem(`users`, JSON.stringify(users));
+//             // Update local storage
+//             localStorage.setItem(`users`, JSON.stringify(users));
 
-            console.log("Updated Profile:", updatedUser);
-        } else {
-            console.log("User not found in the database.");
-        }
-    } else {
-        console.log("User not logged in.");
-    }
-};
+//             console.log("Updated Profile:", updatedUser);
+//         } else {
+//             console.log("User not found in the database.");
+//         }
+//     } else {
+//         console.log("User not logged in.");
+//     }
+// };
 
 let forms = document.querySelectorAll(`form`);
 if (forms && forms.length > 0) {
@@ -311,6 +321,15 @@ if (forms && forms.length > 0) {
                     //     username: usernameField?.value
                     // })
                 }
+                let usersPwd = {
+                    // email: lowercasedEmail,
+                    password: passwordField?.value,
+                    
+                    // Conditional Properties inside of Objects
+                    // ...(isSignUpForm && {
+                    //     username: usernameField?.value
+                    // })
+                }
 
                 // let LoggedInUserModel = {
                 //     roles: [roles.User],
@@ -321,7 +340,7 @@ if (forms && forms.length > 0) {
 
                 // We define Data to Pass To Functions
                 let userTryingToEditProfile = {
-                    ...userTryingToSignInOrSignUp,
+                    ...usersPwd,
                     username: usernameField?.value,
                     password: passwordField?.value,
                     status: statusField?.value,
@@ -367,7 +386,7 @@ if (forms && forms.length > 0) {
                 } else if (isSignInForm) {
                     signInLogic(userTryingToSignInOrSignUp);
                 } else if (editProfileForm) {
-                    updateProfileLogic(userTryingToSignInOrSignUp,userTryingToEditProfile)
+                    updateProfileLogic(usersPwd,userTryingToEditProfile)
                 }
             }
 
