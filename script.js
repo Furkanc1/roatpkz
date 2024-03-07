@@ -9,6 +9,7 @@ let players = storedPlayers
 // Every User in out database
 let storedUsers = localStorage.getItem(`users`);
 let users = storedUsers ? JSON.parse(storedUsers) : [];
+users = users.sort((usr1, usr2) => new Date(usr2.updated) - new Date(usr1.updated));
 
 let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
@@ -205,92 +206,74 @@ const signInLogic = (userTryingToSignInOrSignUpData) => {
     // console.log(`User is trying to sign in`, data);
 }
 
-// STUCK HERE !!
-const updateProfileLogic = (usersData, userTryingToEditProfile) => {
-    // console.log("Info", userTryingToEditProfile)
-    let enteredPassword = usersData?.password;
-    // let usersPassword = users.some(usr => usr.password === enteredPassword);
-    // ChatGPT Suggestion:
-    let userMatch = users.find(usr => usr.password === enteredPassword);
-
-
-    let updatedUsername = userTryingToEditProfile?.username;
-    let password = userTryingToEditProfile?.password;
-    let updatedStatus = userTryingToEditProfile?.status;
-    // let email = userTryingToEditProfile?.email
-
-    let usersUpdatedData = {
-        updated: new Date().toLocaleString(),
-        ...userTryingToEditProfile,
-        username: updatedUsername,
-        // email: enteredPassword,
-        // password: password,
-        status: updatedStatus,
-    }
-    console.log("users new data to replace with old:", usersUpdatedData)
-    console.log(userER)
-    // if the password matched with the users actual account password, then do the following:
-    if (userMatch) {
-        console.log("You just entered first if condition,")
-        if (user) {
-            console.log("You just entered the nested If Condition")
-            // Add updated user back to Database
-            user = users.map(update => {
-            if (update?.password == userMatch?.password) {
-                console.log("You made it HERE", userMatch)
-                return userMatch;
-            } else {
-                console.log("something went wrong with nested If statement!")
-                console.log("Nested Else (return update): ", update)
-                return update;
-
-            }  
-        })
-        // console.log("usersData", usersData)
-        localStorage.setItem(`users`, JSON.stringify(user));
-        // console.log("userTryingToEdit:", userTryingToEditProfile)
-        console.log("updatedProfile(official):", usersUpdatedData)
-        } else {
-            console.log("password was incorrect!")
-        }
+const updateProfileLogic = (formData) => {
+    // Form Error
+    if (
+        (!formData?.status 
+        || formData?.status == ``)
+        && (!formData?.username 
+        || formData?.username == ``)
+    ) {
+        alert(`Please Fill Out Something`);
+        return;
     } else {
-        // console.log("userTryingToEdit:", userTryingToEditProfile)
-        // console.log("usersData", usersData)
+        // Form is Good
+        // We need to update the logged in user with these parameters
+        // console.log(`Update Profile Parameters`, {
+        //     user,
+        //     users,
+        //     formData,
+        // });
+
+        // let confirmPassword = prompt(`Enter your password to modify`);
+        // let passwordIsCorrect = confirmPassword == user?.password;
+
+        // if (passwordIsCorrect) {
+            // To update this user, we need to update them within the overall users array
+            let modifiedUser = null; // Set an empty container, outside of the function, so i can reference it in AND out
+            let modifiedUsers = users.map(usr => {
+                // Update the profile of the currently logged in user
+                let userIsCurrentUser = usr?.email == user?.email;
+    
+                if (userIsCurrentUser) {
+    
+                    let updatedUsername = formData?.username != `` ? formData?.username : usr?.username;
+                    let updatedStatus = formData?.status != `` ? formData?.status : usr?.status;
+    
+                    // Filling the empty container we set up earlier with data
+                    modifiedUser = {
+                        // Spread Operator
+                        // Properties being inherited 
+                        ...usr, // You NEED to make a copy of the exisiting parameters you want to keep
+                        
+                        // Then overwrite the ones you want to modify below
+                        status: updatedStatus,
+                        username: updatedUsername,
+                        updated: new Date().toLocaleString(),
+                        displayName: capitalizeFirstLetter(updatedUsername),
+                    };
+    
+                    return modifiedUser;
+                } else { // User is not current user // Dont Modify
+                    // if the user is not the one that is currently logged in, dont modify anything, just return the same user we had
+                    return usr;
+                }
+    
+            })
+    
+            // Store the modified values BACK into the database
+            users = modifiedUsers;
+            // Storing the container of data back into the database
+            localStorage.setItem(`user`, JSON.stringify(modifiedUser));
+            localStorage.setItem(`users`, JSON.stringify(users));
+    
+            window.location.reload();
+        // } else {
+            // alert(`Password was incorrect!`);
+            // return;
+        // }
     }
 }
-
-
-// chat GPT's Method: I officially give up GG (doesnt work either)
-// const updateProfileLogic = (userTryingToEditProfile) => {
-//     console.log("Info", userTryingToEditProfile);
-
-//     // Check if the user is currently logged in
-//     if (user) {
-//         let enteredEmail = user.email;
-//         let userIndex = users.findIndex(usr => usr.email === enteredEmail);
-
-//         if (userIndex !== -1) {
-//             // Update the user's profile
-//             let updatedUser = {
-//                 updated: new Date().toLocaleString(),
-//                 ...userTryingToEditProfile,
-//                 email: enteredEmail,
-//             };
-
-//             // Update user in the users array
-//             users[userIndex] = updatedUser;
-
-//             // Update local storage
-//             localStorage.setItem(`users`, JSON.stringify(users));
-
-//             console.log("Updated Profile:", updatedUser);
-//         } else {
-//             console.log("User not found in the database.");
-//         }
-//     } else {
-//         console.log("User not logged in.");
-//     }
-// };
 
 let forms = document.querySelectorAll(`form`);
 if (forms && forms.length > 0) {
@@ -382,6 +365,7 @@ if (forms && forms.length > 0) {
                             status: `Hello, I'm New`,
                             username: usernameField?.value,
                             date: new Date().toLocaleString(),
+                            updated: new Date().toLocaleString(),
                             displayName: capitalizeFirstLetter(lowercasedEmailName),
                         };
     
@@ -393,10 +377,7 @@ if (forms && forms.length > 0) {
                 // If Sign In 
                 } else if (isSignInForm) {
                     signInLogic(userTryingToSignInOrSignUp);
-                } 
-                // else if (editProfileForm) {
-                //     updateProfileLogic(usersPwd,userTryingToEditProfile)
-                // }
+                }
             } else {
                 let isEditProfileForm = formThatWasSubmitted.classList.contains(`editProfileForm`);
 
@@ -409,50 +390,7 @@ if (forms && forms.length > 0) {
                         username: usernameField?.value,
                     }
     
-                    // Form Error
-                    if (
-                        (!formData?.status 
-                        || formData?.status == ``)
-                        && (!formData?.username 
-                        || formData?.username == ``)
-                    ) {
-                        alert(`Please Fill Out Something`);
-                        return;
-                    } else {
-                        // Form is Good
-                        // We need to update the logged in user with these parameters
-                        console.log(`Update Profile Parameters`, {
-                            user,
-                            users,
-                            formData,
-                        });
-                    
-                        // To update this user, we need to update them within the overall users array
-                        let modifiedUser = null;
-                        let modifiedUsers = users.map(usr => {
-                            // Update the profile of the currently logged in user
-                            if (usr?.email == user?.email) {
-                                let newUsername = formData?.username != `` ? formData?.username : usr?.username;
-                                modifiedUser = {
-                                    ...usr,
-                                    username: newUsername,
-                                    updated: new Date().toLocaleString(),
-                                    displayName: capitalizeFirstLetter(newUsername),
-                                    status: formData?.status != `` ? formData?.status : usr?.status,
-                                };
-                                return modifiedUser;
-                            } else {
-                                // if the user is not the one that is currently logged in, dont modify anything, just return the same user we had
-                                return usr;
-                            }
-                        })
-    
-                        users = modifiedUsers;
-                        localStorage.setItem(`user`, JSON.stringify(modifiedUser));
-                        localStorage.setItem(`users`, JSON.stringify(users));
-
-                        window.location.reload();
-                    }
+                    updateProfileLogic(formData);
                 }
             }
 
@@ -480,3 +418,49 @@ setInterval(() => {
 }, 999);
 
 playersCountElement.html(players.length);
+
+
+let statusesContainers = $(`.statusesContainer`);
+
+if (statusesContainers && statusesContainers.length > 0) {
+    $(`.statusesContainer`).each(() => {
+
+        let usersRegistered = users && users.length > 0;
+
+        if (usersRegistered) {
+            $(`.statusesContainer`).html(``);
+
+            users.forEach((usr, usrIndex) => {
+                let userIsCurrentUser = usr?.email == user?.email;
+
+                let userStatus = $(`
+                    <li class="status ${userIsCurrentUser ? `me` : ``}">
+                        <div class="userStatus">
+                           ${usrIndex + 1}) ${usr?.status}
+                        </div>
+                        <br />
+                        <br />
+                        <div>
+                            <span class="usernameOrDisplayName">
+                                - ${usr?.displayName}
+                            </span>
+                            <span class="lastUpdated">
+                                ${usr?.updated}
+                            </span>
+                        </div>
+                    </li>
+                `);
+
+                $(`.statusesContainer`).append(userStatus);
+            })
+        } else {
+            let zeroStateMessage = $(`
+                <li class="status">
+                    There are no user statuses to show
+                </li>
+            `) ;
+
+            $(`.statusesContainer`).append(zeroStateMessage);
+        }
+    })
+}

@@ -15,15 +15,34 @@ if (allDropdownCols && allDropdownCols.length > 0) {
             let dropdownBtn = containerToConsider.querySelector(`.dropdownButton`);
             let dropdownContent = containerToConsider.querySelector(`.dropdown-content`);
 
-            let logoutButtonClicked = dropdownBtn.classList.contains(`dropdownButtonLogout`);
+            let logoutButtonClicked = dropdownBtn != null && dropdownBtn != undefined ? (
+                dropdownBtn.classList.contains(`dropdownButtonLogout`)
+            ) : false;
+
+            let logoutButton = containerToConsider.querySelector(`.dropdownButtonLogout`);
+
+            console.log(`logoutButton`, logoutButton);
+            if (logoutButton) {
+                logoutButton.addEventListener(`click`, e => {
+                    localStorage.removeItem(`user`);
+                    window.location.reload();
+                })
+            }
 
             if (logoutButtonClicked) {
-                // localStorage.removeItem(`user`);
-                // window.location.reload();
+                // Logout logic
+                // Log out logic
+                // Signoutlogic
+                // Signout logic
+                localStorage.removeItem(`user`);
+                window.location.reload();
             } else {
-                console.log('here you are')
-                dropdownBtn.classList.toggle(`flippingDropdownButton`);
-                dropdownContent.classList.toggle(`expanded`);
+                console.log(`Log Out Button not clicked`);
+
+                if (dropdownBtn != null && dropdownBtn != undefined) {
+                    dropdownBtn.classList.toggle(`flippingDropdownButton`);
+                    dropdownContent.classList.toggle(`expanded`);
+                }
             }
 
         })

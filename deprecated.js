@@ -1,5 +1,91 @@
 // This code has been deprecated
 
+// chat GPT's Method: I officially give up GG (doesnt work either)
+// const updateProfileLogic = (userTryingToEditProfile) => {
+//     console.log("Info", userTryingToEditProfile);
+
+//     // Check if the user is currently logged in
+//     if (user) {
+//         let enteredEmail = user.email;
+//         let userIndex = users.findIndex(usr => usr.email === enteredEmail);
+
+//         if (userIndex !== -1) {
+//             // Update the user's profile
+//             let updatedUser = {
+//                 updated: new Date().toLocaleString(),
+//                 ...userTryingToEditProfile,
+//                 email: enteredEmail,
+//             };
+
+//             // Update user in the users array
+//             users[userIndex] = updatedUser;
+
+//             // Update local storage
+//             localStorage.setItem(`users`, JSON.stringify(users));
+
+//             console.log("Updated Profile:", updatedUser);
+//         } else {
+//             console.log("User not found in the database.");
+//         }
+//     } else {
+//         console.log("User not logged in.");
+//     }
+// };
+
+// STUCK HERE !!
+const updateProfileLogic = (usersData, userTryingToEditProfile) => {
+    // console.log("Info", userTryingToEditProfile)
+    let enteredPassword = usersData?.password;
+    // let usersPassword = users.some(usr => usr.password === enteredPassword);
+    // ChatGPT Suggestion:
+    let userMatch = users.find(usr => usr.password === enteredPassword);
+
+
+    let updatedUsername = userTryingToEditProfile?.username;
+    let password = userTryingToEditProfile?.password;
+    let updatedStatus = userTryingToEditProfile?.status;
+    // let email = userTryingToEditProfile?.email
+
+    let usersUpdatedData = {
+        updated: new Date().toLocaleString(),
+        ...userTryingToEditProfile,
+        username: updatedUsername,
+        // email: enteredPassword,
+        // password: password,
+        status: updatedStatus,
+    }
+    console.log("users new data to replace with old:", usersUpdatedData)
+    console.log(userER)
+    // if the password matched with the users actual account password, then do the following:
+    if (userMatch) {
+        console.log("You just entered first if condition,")
+        if (user) {
+            console.log("You just entered the nested If Condition")
+            // Add updated user back to Database
+            user = users.map(update => {
+            if (update?.password == userMatch?.password) {
+                console.log("You made it HERE", userMatch)
+                return userMatch;
+            } else {
+                console.log("something went wrong with nested If statement!")
+                console.log("Nested Else (return update): ", update)
+                return update;
+
+            }  
+        })
+        // console.log("usersData", usersData)
+        localStorage.setItem(`users`, JSON.stringify(user));
+        // console.log("userTryingToEdit:", userTryingToEditProfile)
+        console.log("updatedProfile(official):", usersUpdatedData)
+        } else {
+            console.log("password was incorrect!")
+        }
+    } else {
+        // console.log("userTryingToEdit:", userTryingToEditProfile)
+        // console.log("usersData", usersData)
+    }
+}
+
 // Set Header Component w/ jQuery
 const setHeaderDynamically = () => {
     const header = $(`

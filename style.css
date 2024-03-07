@@ -10,6 +10,7 @@
 
 :root {
   --bg: #001927;
+  --me: #d1ffd1;
   --main: #98fefd;
   --bgText: #367179;
   --font: "Montserrat";
@@ -241,6 +242,7 @@ section {
   padding: 5.625rem 0;
   background-color: #001927;
 }
+
 .newsBox {
   display: flex;
   flex-wrap: wrap;
@@ -250,7 +252,37 @@ section {
   align-items: center;
   border: black solid;
   justify-content: center;
-  
+}
+
+.statusesContainer {
+  display: flex;
+  grid-gap: 15px;
+  flex-wrap: wrap;
+  list-style: none;
+  flex-direction: column;
+  margin: 15px 15% 0 15%;
+}
+
+.statusesContainer .status {
+  padding: 35px;
+  color: black;
+  min-width: 225px;
+  border-radius: 5px;
+  background: white;
+}
+
+.statusesContainer .status.me {
+  background: var(--me);
+}
+
+.statusesContainer .status .lastUpdated {
+  float: right;
+}
+
+.statusesContainer .status .userStatus {
+  overflow-y: auto;
+  max-height: 150px;
+  overflow-x: hidden;
 }
 
 .dropdownButton {
