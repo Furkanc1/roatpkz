@@ -43,6 +43,10 @@ body {
   justify-content: space-between;
 }
 
+.justifyCenter {
+  justify-content: center;
+}
+
 .flexBox {
   display: flex;
   grid-gap: 15px;
@@ -50,12 +54,15 @@ body {
   justify-content: center;
 }
 
-.textStyle {
+.emphasisFont {
   font-weight: 700;
+  font-size: 20px;
+}
+
+.textStyle {
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
   cursor: pointer;
 }
 
@@ -73,10 +80,6 @@ body {
 
 .flexColumn {
   flex-direction: column !important;
-}
-
-.menuListItem {
-  padding: 10px;
 }
 
 .menuListItem::before {
@@ -429,15 +432,15 @@ section {
   position: relative;
 }
 
-.authForm {
+form {
   display: flex;
   grid-gap: 15px;
-  padding-top: 50px;
-  flex-direction: column;
-  max-width: var(--formAndButtonSize);
-  justify-content: center;
-  align-items: center;
   margin: 0 auto;
+  padding-top: 50px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  max-width: var(--formAndButtonSize);
 }
 
 .topbarTimerMessage {
@@ -489,13 +492,19 @@ footer {
   }
 }
 
-@media (max-width: 800px) {
+@media (min-width: 768px) {
+  .menuListItem {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 767px) {
   /* Header Responsiveness */
   .navbar .menu {
     flex-direction: column;
   }
 
   .menuListItem {
-    padding: 0;
+    padding: 0 !important;
   }
 }

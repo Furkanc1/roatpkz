@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body class="mainContentOfWebsite">
@@ -99,12 +99,13 @@
 
     <main>
         <div class="editProfileContainer">
-            <form class="authForm editProfileForm">
-                <input type="editUserName" id="editUserName" name="edittedUserName" placeholder="Edit Username..."/>
-                <input type="text" id="editStatus" name="editStatus" placeholder="Edit Status..."/>
-                <input type="password" id="editPassword" name="password" placeholder="Enter Password..."/>
+            <form class="editProfileForm hiddenOnLoggedOut">
+                <input type="editUserName" id="editUserName" name="edittedUserName" placeholder="Edit Username..." />
+                <input type="text" id="editStatus" name="editStatus" placeholder="Edit Status..." />
+                <!-- <input type="password" id="editPassword" name="password" placeholder="Enter Password..."/> -->
                 <button type="update" id="updateUserBtn" class="playNowButton">Update </button>
             </form>
+            <div class="flexRow justifyCenter hiddenOnLoggedIn emphasisFont">You must be logged in to edit profile</div>
         </div>
     </main>
 

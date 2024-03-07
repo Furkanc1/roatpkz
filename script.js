@@ -13,9 +13,13 @@ let users = storedUsers ? JSON.parse(storedUsers) : [];
 let storedUser = localStorage.getItem(`user`);
 // Currently Logged In User
 let user = storedUser ? JSON.parse(storedUser) : null;
-// console.log(user)
+
+let editProfileForm = document.querySelector(`.editProfileForm`);
+
 if (user != null) {
     // User is Sign In
+    console.log(`Current User(s)`, users);
+    console.log(`Currently Logged In User`, user);
     let dynamicNameInsertSpan = document.querySelector(".userNameAreaForInsertion");
     dynamicNameInsertSpan.innerHTML = `Welcome, Sir ${user?.displayName}`;
 
@@ -24,6 +28,14 @@ if (user != null) {
         hideTheseOnLoggedIn.forEach(itemWeWantToHide => {
             itemWeWantToHide.classList.add(`hidden`);
         })
+    }
+
+    if (editProfileForm) {
+        let statusField = editProfileForm?.editStatus;
+        let usernameField = editProfileForm?.edittedUserName;
+
+        statusField.value = user?.status;
+        usernameField.value = user?.username;
     }
 } else {
     let hideTheseOnLoggedOut = document.querySelectorAll(`.hiddenOnLoggedOut`);
@@ -197,7 +209,10 @@ const signInLogic = (userTryingToSignInOrSignUpData) => {
 const updateProfileLogic = (usersData, userTryingToEditProfile) => {
     // console.log("Info", userTryingToEditProfile)
     let enteredPassword = usersData?.password;
-    let usersPassword = users.some(usr => usr.password === enteredPassword);
+    // let usersPassword = users.some(usr => usr.password === enteredPassword);
+    // ChatGPT Suggestion:
+    let userMatch = users.find(usr => usr.password === enteredPassword);
+
 
     let updatedUsername = userTryingToEditProfile?.username;
     let password = userTryingToEditProfile?.password;
@@ -208,22 +223,22 @@ const updateProfileLogic = (usersData, userTryingToEditProfile) => {
         updated: new Date().toLocaleString(),
         ...userTryingToEditProfile,
         username: updatedUsername,
-        email: enteredPassword,
-        password: password,
+        // email: enteredPassword,
+        // password: password,
         status: updatedStatus,
     }
     console.log("users new data to replace with old:", usersUpdatedData)
-
+    console.log(userER)
     // if the password matched with the users actual account password, then do the following:
-    if (enteredPassword == usersPassword) {
-        console.log("You just entered first if condition")
+    if (userMatch) {
+        console.log("You just entered first if condition,")
         if (user) {
             console.log("You just entered the nested If Condition")
             // Add updated user back to Database
             user = users.map(update => {
-            if (update?.password == usersUpdatedData?.password) {
-                console.log("You made it HERE", usersUpdatedData)
-                return usersUpdatedData;
+            if (update?.password == userMatch?.password) {
+                console.log("You made it HERE", userMatch)
+                return userMatch;
             } else {
                 console.log("something went wrong with nested If statement!")
                 console.log("Nested Else (return update): ", update)
@@ -289,24 +304,17 @@ if (forms && forms.length > 0) {
             // Inside of that free Submit Event data, there is a property called target, which is the form at the moment of from submit
             // console.log(`Form Submit Event`, onFormSubmitEvent);
             let formThatWasSubmitted = onFormSubmitEvent.target;
-
+            // For Authentication Forms Only
             if (formThatWasSubmitted.classList.contains(`authForm`)) {
                 // This destructuring example is doing the same thing as the lines below but in one line
                 // let { email: emailField, username: usernameField password: passwordField } = formThatWasSubmitted;
 
                 let isSignUpForm = formThatWasSubmitted.classList.contains(`signUpForm`);
                 let isSignInForm = formThatWasSubmitted.classList.contains(`signInForm`);
-                let editProfileForm = formThatWasSubmitted.classList.contains(`editProfileForm`);
                 
                 let emailField = formThatWasSubmitted?.email;
                 let passwordField = formThatWasSubmitted?.password;
-
-                let statusField = formThatWasSubmitted?.editStatus;
-                let usernameField = formThatWasSubmitted?.edittedUserName;
                 // let user = storedUser ? JSON.parse(storedUser) : null;
-
-
-
                 
                 let lowercasedEmail = emailField?.value?.toLowerCase();
                 let lowercasedEmailName = lowercasedEmail?.split(`@`)[0];
@@ -321,15 +329,15 @@ if (forms && forms.length > 0) {
                     //     username: usernameField?.value
                     // })
                 }
-                let usersPwd = {
+                // let usersPwd = {
                     // email: lowercasedEmail,
-                    password: passwordField?.value,
+                    // password: passwordField?.value,
                     
                     // Conditional Properties inside of Objects
                     // ...(isSignUpForm && {
                     //     username: usernameField?.value
                     // })
-                }
+                // }
 
                 // let LoggedInUserModel = {
                 //     roles: [roles.User],
@@ -339,12 +347,12 @@ if (forms && forms.length > 0) {
                 // }
 
                 // We define Data to Pass To Functions
-                let userTryingToEditProfile = {
-                    ...usersPwd,
-                    username: usernameField?.value,
-                    password: passwordField?.value,
-                    status: statusField?.value,
-                }
+                // let userTryingToEditProfile = {
+                //     ...usersPwd,
+                //     username: usernameField?.value,
+                //     password: passwordField?.value,
+                //     status: statusField?.value,
+                // }
 
                 // define logged in User model
 
@@ -385,8 +393,66 @@ if (forms && forms.length > 0) {
                 // If Sign In 
                 } else if (isSignInForm) {
                     signInLogic(userTryingToSignInOrSignUp);
-                } else if (editProfileForm) {
-                    updateProfileLogic(usersPwd,userTryingToEditProfile)
+                } 
+                // else if (editProfileForm) {
+                //     updateProfileLogic(usersPwd,userTryingToEditProfile)
+                // }
+            } else {
+                let isEditProfileForm = formThatWasSubmitted.classList.contains(`editProfileForm`);
+
+                if (isEditProfileForm) {
+                    let statusField = formThatWasSubmitted?.editStatus;
+                    let usernameField = formThatWasSubmitted?.edittedUserName;
+    
+                    let formData = {
+                        status: statusField?.value,
+                        username: usernameField?.value,
+                    }
+    
+                    // Form Error
+                    if (
+                        (!formData?.status 
+                        || formData?.status == ``)
+                        && (!formData?.username 
+                        || formData?.username == ``)
+                    ) {
+                        alert(`Please Fill Out Something`);
+                        return;
+                    } else {
+                        // Form is Good
+                        // We need to update the logged in user with these parameters
+                        console.log(`Update Profile Parameters`, {
+                            user,
+                            users,
+                            formData,
+                        });
+                    
+                        // To update this user, we need to update them within the overall users array
+                        let modifiedUser = null;
+                        let modifiedUsers = users.map(usr => {
+                            // Update the profile of the currently logged in user
+                            if (usr?.email == user?.email) {
+                                let newUsername = formData?.username != `` ? formData?.username : usr?.username;
+                                modifiedUser = {
+                                    ...usr,
+                                    username: newUsername,
+                                    updated: new Date().toLocaleString(),
+                                    displayName: capitalizeFirstLetter(newUsername),
+                                    status: formData?.status != `` ? formData?.status : usr?.status,
+                                };
+                                return modifiedUser;
+                            } else {
+                                // if the user is not the one that is currently logged in, dont modify anything, just return the same user we had
+                                return usr;
+                            }
+                        })
+    
+                        users = modifiedUsers;
+                        localStorage.setItem(`user`, JSON.stringify(modifiedUser));
+                        localStorage.setItem(`users`, JSON.stringify(users));
+
+                        window.location.reload();
+                    }
                 }
             }
 
